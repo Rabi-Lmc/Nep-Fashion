@@ -42,59 +42,57 @@
         <a href="index.html" style="color: #666; text-decoration: none;">← Back to Home</a>
     </div>
 
-    <script type="module">
-        // Import the new combined function we created in auth.js
-        import { uploadProductWithImage } from './auth.js';
+   <script type="module">
+    import { db, collection, query, orderBy, onSnapshot, uploadProductWithImage } from "./auth.js";
 
-        const fileInput = document.getElementById('p-file');
-        const previewBox = document.getElementById('preview-box');
-        const imagePreview = document.getElementById('image-preview');
+    const adminForm = document.getElementById('upload-form');
+    const imageInput = document.getElementById('p-file');
+    const imagePreview = document.getElementById('image-preview');
+    const previewBox = document.getElementById('preview-box');
+
+    // 1. Image Preview
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                if (previewBox) previewBox.style.display = 'block';
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // 2. Form Submission
+    adminForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const imageFile = imageInput.files[0];
         const submitBtn = document.getElementById('submit-btn');
 
-        // --- 1. Show Preview when file is selected ---
-        fileInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    previewBox.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
+        submitBtn.innerText = "Uploading...";
+        submitBtn.disabled = true;
 
-        // --- 2. Handle Upload ---
-        document.getElementById('upload-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const file = fileInput.files[0];
-            const data = {
+        try {
+            const productData = {
                 name: document.getElementById('p-name').value,
                 price: Number(document.getElementById('p-price').value),
                 category: document.getElementById('p-cat').value
-                // image URL will be added automatically by the function in auth.js
             };
 
-            // UX: Disable button while uploading
-            submitBtn.innerText = "Uploading to Cloud...";
-            submitBtn.style.background = "#888";
-            submitBtn.disabled = true;
-
-            // Call the unified function: uploads image to Storage, then info to Firestore
-            const success = await uploadProductWithImage(file, data);
-
-            if(success) {
-                e.target.reset(); // Clear form
-                previewBox.style.display = 'none'; // Hide preview
-                alert("Upload Complete! Product is now live in your shop.");
+            const success = await uploadProductWithImage(imageFile, productData);
+            if (success) {
+                adminForm.reset();
+                if (previewBox) previewBox.style.display = 'none';
+                alert("Success! Product is live.");
             }
-
-            // Reset button
+        } catch (error) {
+            alert("Error uploading product.");
+        } finally {
             submitBtn.innerText = "Post to Shop";
-            submitBtn.style.background = "#2c2c2c";
             submitBtn.disabled = false;
-        });
-    </script>
+        }
+    });
+</script>
 </body>
 </html>
