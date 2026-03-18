@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Nep Fashion</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Reusing the same styles as Login for brand consistency */
+        .auth-wrapper { height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #fdfbf7; }
+        .auth-card { background: white; padding: 50px; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-radius: 8px; }
+        .auth-card h2 { margin-bottom: 10px; font-family: 'Playfair Display', serif; }
+        .google-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 14px; background: white; border: 1px solid #ddd; font-family: 'Poppins', sans-serif; font-weight: 500; cursor: pointer; border-radius: 4px; }
+        .google-btn img { width: 20px; }
+    </style>
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <a href="index.html" class="logo" style="display:block; margin-bottom:20px;">Nep Fashion</a>
+            <h2>Join Nep Fashion</h2>
+            <p style="margin-bottom:30px; color:#777;">Create an account to track your fusion wear orders.</p>
+            
+            <button class="google-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" alt="Google">
+                Sign up with Google
+            </button>
+
+            <p style="margin-top: 20px;">Already have an account? <a href="login.html" style="color:black; font-weight:600;">Login</a></p>
+        </div>
+    </div>
+    <script type="module" src="auth.js"></script>
+</body>
+</html>

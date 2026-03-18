@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nep Fashion | Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="padding: 50px; background: #f4f1ea;">
+
+    <div class="admin-card" style="max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 10px;">
+        <h2>Upload New Clothing</h2>
+        <hr><br>
+        
+        <form id="upload-form">
+            <label>Product Name</label>
+            <input type="text" id="p-name" placeholder="e.g. Red Silk Saree" required style="width:100%; margin-bottom:15px; padding:10px;">
+            
+            <label>Price (NPR)</label>
+            <input type="number" id="p-price" placeholder="e.g. 15000" required style="width:100%; margin-bottom:15px; padding:10px;">
+            
+            <label>Category</label>
+            <select id="p-cat" style="width:100%; margin-bottom:15px; padding:10px;">
+                <option value="Saree">Saree</option>
+                <option value="Lehenga">Lehenga</option>
+                <option value="Kurti">Kurti</option>
+                <option value="Party Wear">Party Wear</option>
+            </select>
+            
+            <label>Image URL</label>
+            <input type="text" id="p-img" placeholder="Paste image link here" required style="width:100%; margin-bottom:15px; padding:10px;">
+            
+            <button type="submit" class="btn primary" style="width: 100%;">Post to Shop</button>
+        </form>
+        
+        <br>
+        <a href="index.html" style="color: #666;">← Back to Home</a>
+    </div>
+
+    <script type="module">
+        import { uploadProduct } from './auth.js';
+
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const data = {
+                name: document.getElementById('p-name').value,
+                price: document.getElementById('p-price').value,
+                category: document.getElementById('p-cat').value,
+                image: document.getElementById('p-img').value
+            };
+
+            const success = await uploadProduct(data);
+            if(success) e.target.reset(); // Clear form after upload
+        });
+    </script>
+</body>
+</html>

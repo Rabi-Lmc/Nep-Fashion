@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Nep Fashion</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-wrapper {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fdfbf7;
+        }
+        .auth-card {
+            background: white;
+            padding: 50px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+        .auth-card h2 { margin-bottom: 10px; font-family: 'Playfair Display', serif; }
+        .auth-card p { color: #777; margin-bottom: 30px; font-size: 14px; }
+        
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: 1px solid #ddd;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 4px;
+        }
+        .google-btn:hover { background: #f9f9f9; border-color: #aaa; }
+        .google-btn img { width: 20px; }
+        
+        .back-home { display: block; margin-top: 25px; color: #c9a227; text-decoration: none; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <a href="index.html" class="logo" style="display:block; margin-bottom:20px;">Nep Fashion</a>
+            <h2>Welcome Back</h2>
+            <p>Access your orders and saved aesthetic dresses.</p>
+            
+            <button class="google-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" alt="Google">
+                Login with Google
+            </button>
+
+            <p style="margin-top: 20px;">New to Nep Fashion? <a href="signup.html" style="color:black; font-weight:600;">Sign up</a></p>
+            <a href="index.html" class="back-home">← Back to Store</a>
+        </div>
+    </div>
+    <script type="module" src="auth.js"></script>
+</body>
+</html>
