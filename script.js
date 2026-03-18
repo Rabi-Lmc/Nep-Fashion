@@ -1,14 +1,14 @@
 // --- Product Data ---
 // Using placeholder images for demonstration
 const products = [
-    { id: 1, name: "Gold Embellished Lehenga", category: "lehenga", price: 18500, img: "https://images.unsplash.com/photo-1583391733958-d25e61c2c3e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-    { id: 2, name: "Classic Crimson Saree", category: "saree", price: 12000, img: "https://images.unsplash.com/photo-1610189013583-05f3e9c636f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-    { id: 3, name: "Minimalist Beige Kurti", category: "kurti", price: 3500, img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-    { id: 4, name: "Black Velvet Party Gown", category: "party", price: 8500, img: "https://images.unsplash.com/photo-1566160983994-4d1a0e88380e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-    { id: 5, name: "Pastel Pink Saree", category: "saree", price: 9500, img: "https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-    { id: 6, name: "Festive Yellow Kurti Set", category: "kurti", price: 4200, img: "https://images.unsplash.com/photo-1621539257692-0b89f81741bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-    { id: 7, name: "Royal Blue Lehenga", category: "lehenga", price: 21000, img: "https://images.unsplash.com/photo-1596455607563-ad6193f76b5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-    { id: 8, name: "White Aesthetic Dress", category: "party", price: 6000, img: "https://images.unsplash.com/photo-1515347619152-192a5438c6bb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" }
+    { id: 1, name: "Gold Embellished Lehenga", category: "lehenga", price: 18500, img: "img/lehenga.jpg" },
+    { id: 2, name: "Classic Crimson Saree", category: "saree", price: 12000, img: "img/Classic Crimson Saree.jpg" },
+    { id: 3, name: "Minimalist Beige Kurti", category: "kurti", price: 3500, img: "img/Minimalist Beige Kurti.jpg" },
+    { id: 4, name: "Black Velvet Party Gown", category: "party", price: 8500, img: "img/Black Velvet Party Gown.jpg" },
+    { id: 5, name: "Pastel Pink Saree", category: "saree", price: 9500, img: "img/Pastel Pink Saree.jpg" },
+    { id: 6, name: "Festive Yellow Kurti Set", category: "kurti", price: 4200, img: "img/Festive Yellow Kurti Set.jpg" },
+    { id: 7, name: "Royal Blue Lehenga", category: "lehenga", price: 21000, img: "img/Royal Blue Lehenga.jpg" },
+    { id: 8, name: "White Aesthetic Dress", category: "party", price: 6000, img: "img/White Aesthetic Dress.jpg" }
 ];
 
 // --- Global State ---
