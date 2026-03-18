@@ -2,13 +2,13 @@
 // Using placeholder images for demonstration
 const products = [
     { id: 1, name: "Gold Embellished Lehenga", category: "lehenga", price: 18500, img: "img/lehenga.jpg" },
-    { id: 2, name: "Classic Crimson Saree", category: "saree", price: 12000, img: "img/Classic Crimson Saree.jpg" },
-    { id: 3, name: "Minimalist Beige Kurti", category: "kurti", price: 3500, img: "img/Minimalist Beige Kurti.jpg" },
-    { id: 4, name: "Black Velvet Party Gown", category: "party", price: 8500, img: "img/Black Velvet Party Gown.jpg" },
-    { id: 5, name: "Pastel Pink Saree", category: "saree", price: 9500, img: "img/Pastel Pink Saree.jpg" },
-    { id: 6, name: "Festive Yellow Kurti Set", category: "kurti", price: 4200, img: "img/Festive Yellow Kurti Set.jpg" },
-    { id: 7, name: "Royal Blue Lehenga", category: "lehenga", price: 21000, img: "img/Royal Blue Lehenga.jpg" },
-    { id: 8, name: "White Aesthetic Dress", category: "party", price: 6000, img: "img/White Aesthetic Dress.jpg" }
+    { id: 2, name: "Classic Crimson Saree", category: "saree", price: 12000, img: "img/crimson.jpg" },
+    { id: 3, name: "Minimalist Beige Kurti", category: "kurti", price: 3500, img: "img/beige.jpg" },
+    { id: 4, name: "Black Velvet Party Gown", category: "party", price: 8500, img: "img/red.jpg" },
+    { id: 5, name: "Pastel Pink Saree", category: "saree", price: 9500, img: "img/saree.jpg" },
+    { id: 6, name: "Festive Yellow Kurti Set", category: "kurti", price: 4200, img: "img/yellow.jpg" },
+    { id: 7, name: "Royal Blue Lehenga", category: "lehenga", price: 21000, img: "img/blue.jpg" },
+    { id: 8, name: "White Aesthetic Dress", category: "party", price: 6000, img: "img/white.jpg" }
 ];
 
 // --- Global State ---
