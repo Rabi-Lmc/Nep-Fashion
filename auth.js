@@ -31,21 +31,18 @@ export const handleGoogleAuth = () => {
     return signInWithPopup(auth, provider);
 };
 
-// 4. Unified Upload Logic (Storage + Firestore)
+// 4. Unified Upload Logic
 export const uploadProductWithImage = async (imageFile, productData) => {
     try {
-        // A. Upload Image to Firebase Storage
         const storageRef = ref(storage, `products/${Date.now()}_${imageFile.name}`);
         const snapshot = await uploadBytes(storageRef, imageFile);
         const imageURL = await getDownloadURL(snapshot.ref);
 
-        // B. Save Product Data to Firestore
         await addDoc(collection(db, "products"), {
             ...productData,
             img: imageURL, 
             createdAt: serverTimestamp()
         });
-
         return true;
     } catch (error) {
         console.error("Upload Error:", error);
@@ -53,7 +50,39 @@ export const uploadProductWithImage = async (imageFile, productData) => {
     }
 };
 
-// 5. Exports for other files
+// 5. Exports (Only variables not already exported above)
 export { 
-    db, storage, auth, collection, query, orderBy, onSnapshot 
+    db, 
+    storage, 
+    auth, 
+    collection, 
+    query, 
+    orderBy, 
+    onSnapshot 
 };
+
+// 6. Login Button Listener (Runs only on Login Page)
+// Make sure your login.html button has id="google-login"
+const loginBtn = document.getElementById('google-login');
+
+if (loginBtn) {
+    loginBtn.addEventListener('click', async () => {
+        try {
+            loginBtn.innerText = "Connecting...";
+            loginBtn.disabled = true;
+
+            const result = await handleGoogleAuth();
+            alert("Namaste, " + result.user.displayName + "!");
+            window.location.href = "admin.html"; // Redirect to admin after login
+
+        } catch (error) {
+            console.error("Auth Error:", error);
+            alert("Login failed. Check your Firebase Authorized Domains!");
+            loginBtn.innerHTML = `
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" alt="Google" style="width:20px; margin-right:10px;">
+                Login with Google
+            `;
+            loginBtn.disabled = false;
+        }
+    });
+}
