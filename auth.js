@@ -1,116 +1,74 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { 
-    getAuth, 
-    GoogleAuthProvider, 
-    signInWithPopup, 
-    onAuthStateChanged, 
-    signOut 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { 
-    getFirestore, 
-    collection, 
-    addDoc, 
-    getDocs, 
-    serverTimestamp 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { db, collection, query, orderBy, onSnapshot, uploadProductWithImage } from "./auth.js";
 
-// --- ADMIN SETTINGS ---
-const ADMIN_EMAIL = "w33604031@gmail.com"; // 👈 CHANGE THIS to your actual email
+// Match the IDs from your admin.html
+const adminForm = document.getElementById('upload-form');
+const imageInput = document.getElementById('p-file');
+const imagePreview = document.getElementById('image-preview');
+const previewBox = document.getElementById('preview-box');
 
-// 1. Firebase Configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCkMmkdBtaqxPYl-8F3ctx1s5AO60ZXR8E",
-  authDomain: "nep-fashion.firebaseapp.com",
-  projectId: "nep-fashion",
-  storageBucket: "nep-fashion.firebasestorage.app",
-  messagingSenderId: "966946535777",
-  appId: "1:966946535777:web:12c3e0b0d10f88df0ead20"
-};
-
-// 2. Initialize Firebase Services
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app); 
-const provider = new GoogleAuthProvider();
-
-
-// --- 🛡️ THE GATEKEEPER (SECURITY CHECK) ---
-// This checks the current URL. If it's admin.html, it verifies your email.
-if (window.location.pathname.includes("admin.html")) {
-    onAuthStateChanged(auth, (user) => {
-        if (!user || user.email !== ADMIN_EMAIL) {
-            alert("Unauthorized access! Returning to shop...");
-            window.location.href = "index.html";
+// --- 1. Show a preview when you select a file ---
+imageInput.addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            if (previewBox) previewBox.style.display = 'block';
+            imagePreview.style.display = 'block';
         }
-    });
-}
+        reader.readAsDataURL(file);
+    }
+});
 
-// 3. Google Auth Logic
-export const handleGoogleAuth = () => {
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            console.log("Welcome:", result.user.displayName);
-            window.location.href = "index.html";
-        })
-        .catch((error) => {
-            console.error("Auth Error:", error.message);
-            alert("Login failed. Check your internet!");
-        });
-};
+// --- 2. Real-Time Sync (Optional: To see your own changes live on dashboard) ---
+const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+onSnapshot(q, (snapshot) => {
+    console.log("Database updated! New product count:", snapshot.size);
+    // You can use this to refresh an admin "Recent Uploads" list if you have one
+});
 
-// 4. Logout Logic
-export const logoutUser = () => {
-    signOut(auth).then(() => {
-        window.location.reload();
-    });
-};
+// --- 3. Handle the Form Submission ---
+adminForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-// 5. Admin Upload Logic (Saves to Firestore)
-export const uploadProduct = async (productData) => {
+    const imageFile = imageInput.files[0];
+    const name = document.getElementById('p-name').value;
+    const price = document.getElementById('p-price').value;
+    const category = document.getElementById('p-cat').value;
+
+    if (!imageFile) {
+        alert("Please select an image first!");
+        return;
+    }
+
+    const submitBtn = document.getElementById('submit-btn');
+    const originalText = submitBtn.innerText;
+    submitBtn.innerText = "Uploading to Nep Fashion...";
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = "0.7";
+
     try {
-        await addDoc(collection(db, "products"), {
-            ...productData,
-            createdAt: serverTimestamp()
-        });
-        alert("Success! The new dress is now live on Nep Fashion.");
-        return true;
+        const productData = {
+            name: name,
+            price: Number(price), 
+            category: category
+        };
+
+        // This function handles the double-step: Storage Upload -> Firestore Save
+        const success = await uploadProductWithImage(imageFile, productData);
+
+        if (success) {
+            adminForm.reset();
+            if (previewBox) previewBox.style.display = 'none';
+            imagePreview.src = "#";
+            alert("Success! Your new product is now live on the website.");
+        }
     } catch (error) {
-        console.error("Upload Error:", error);
-        alert("Failed to upload product.");
-        return false;
-    }
-};
-
-// 6. Global Auth Listener (UI Updates)
-onAuthStateChanged(auth, (user) => {
-    const authLink = document.getElementById('auth-link');
-    const adminBtn = document.getElementById('admin-nav-item'); 
-
-    if (user) {
-        if (authLink) {
-            authLink.innerHTML = `<a href="#" id="logout-btn">Logout (${user.displayName.split(' ')[0]})</a>`;
-            const logoutBtn = document.getElementById('logout-btn');
-            if (logoutBtn) {
-                logoutBtn.onclick = (e) => {
-                    e.preventDefault();
-                    logoutUser();
-                };
-            }
-        }
-
-        // Show Admin Dashboard link ONLY for you
-        if (user.email === ADMIN_EMAIL) {
-            if (adminBtn) adminBtn.style.display = "block";
-        }
-    } else {
-        if (authLink) authLink.innerHTML = `<a href="login.html">Login</a>`;
-        if (adminBtn) adminBtn.style.display = "none";
+        console.error("Dashboard Error:", error);
+        alert("Upload failed. Check your internet or Admin permissions!");
+    } finally {
+        submitBtn.innerText = originalText;
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
     }
 });
-
-// Attach listeners to buttons with 'google-btn' class
-document.querySelectorAll('.google-btn').forEach(btn => {
-    btn.addEventListener('click', handleGoogleAuth);
-});
-
-export { db };
